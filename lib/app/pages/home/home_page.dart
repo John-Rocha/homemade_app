@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
-import 'package:homemade_app/app/core/ui/helpers/loader.dart';
-import 'package:homemade_app/app/core/ui/helpers/messages.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
-import 'package:homemade_app/app/models/product_model.dart';
 import 'package:homemade_app/app/pages/home/bloc/home_bloc.dart';
 import 'package:homemade_app/app/pages/home/widgets/delivery_product_tile.dart';
-import 'package:provider/provider.dart';
 
 import 'bloc/home_state.dart';
 

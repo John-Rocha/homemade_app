@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
 import 'package:homemade_app/app/core/ui/helpers/loader.dart';
 import 'package:homemade_app/app/core/ui/helpers/messages.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
@@ -17,13 +18,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with Loader, Messages {
+class _HomePageState extends BaseState<HomePage, HomeBloc> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<HomeBloc>().loadProducts();
-    });
+  void onReady() {
+    super.onReady();
+    controller.loadProducts();
   }
 
   @override
@@ -47,18 +46,21 @@ class _HomePageState extends State<HomePage> with Loader, Messages {
           );
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: state.products.length,
-                  itemBuilder: (context, index) {
-                    final product = state.products[index];
-                    return DeliveryProductTile(product: product);
-                  },
+          return RefreshIndicator(
+            onRefresh: () async => controller.loadProducts(),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.products.length,
+                    itemBuilder: (context, index) {
+                      final product = state.products[index];
+                      return DeliveryProductTile(product: product);
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

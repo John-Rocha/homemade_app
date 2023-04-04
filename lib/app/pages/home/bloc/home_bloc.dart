@@ -15,7 +15,6 @@ class HomeBloc extends Cubit<HomeState> {
     emit(state.copyWith(status: HomeStateStatus.loading));
     try {
       final products = await _productRepository.findAllProducts();
-      throw Exception();
       emit(state.copyWith(products: products, status: HomeStateStatus.loaded));
     } catch (e, s) {
       log('Erro ao carregar os produtos', error: e, stackTrace: s);

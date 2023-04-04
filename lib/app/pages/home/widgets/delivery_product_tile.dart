@@ -6,6 +6,7 @@ import 'package:homemade_app/app/models/product_model.dart';
 
 class DeliveryProductTile extends StatelessWidget {
   final ProductModel product;
+
   const DeliveryProductTile({
     super.key,
     required this.product,
@@ -18,7 +19,7 @@ class DeliveryProductTile extends StatelessWidget {
         await Navigator.of(context).pushNamed(
           '/productDetail',
           arguments: {
-            '/product': product,
+            'product': product,
           },
         );
       },

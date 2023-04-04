@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
-import 'package:homemade_app/app/pages/home/bloc/home_bloc.dart';
 import 'package:homemade_app/app/pages/home/widgets/delivery_product_tile.dart';
 
+import 'bloc/home_cubit.dart';
 import 'bloc/home_state.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends BaseState<HomePage, HomeBloc> {
+class _HomePageState extends BaseState<HomePage, HomeCubit> {
   @override
   void onReady() {
     super.onReady();
@@ -25,7 +25,7 @@ class _HomePageState extends BaseState<HomePage, HomeBloc> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DeliveryAppBar(),
-      body: BlocConsumer<HomeBloc, HomeState>(
+      body: BlocConsumer<HomeCubit, HomeState>(
         buildWhen: (previous, current) => current.status.matchAny(
           any: () => false,
           initial: () => true,

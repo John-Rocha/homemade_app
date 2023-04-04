@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homemade_app/app/pages/home/bloc/home_state.dart';
 import 'package:homemade_app/app/repositories/products/products_repository.dart';
 
-class HomeBloc extends Cubit<HomeState> {
+class HomeCubit extends Cubit<HomeState> {
   final ProductsRepository _productRepository;
 
-  HomeBloc(
+  HomeCubit(
     this._productRepository,
   ) : super(HomeState.initial());
 

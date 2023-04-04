@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:homemade_app/app/core/ui/helpers/loader.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
 import 'package:homemade_app/app/models/product_model.dart';
 import 'package:homemade_app/app/pages/home/widgets/delivery_product_tile.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with Loader {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          showLoader();
+          await Future.delayed(const Duration(seconds: 2));
+          hideLoader();
+        },
+      ),
       appBar: DeliveryAppBar(),
       body: Column(
         children: [

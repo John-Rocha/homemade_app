@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
 import 'package:homemade_app/app/pages/home/widgets/delivery_product_tile.dart';
+import 'package:homemade_app/app/pages/home/widgets/shopping_bag_widget.dart';
 
 import 'bloc/home_cubit.dart';
 import 'bloc/home_state.dart';
@@ -60,6 +61,10 @@ class _HomePageState extends BaseState<HomePage, HomeCubit> {
                     },
                   ),
                 ),
+                Visibility(
+                  visible: state.shoppingBag.isNotEmpty,
+                  child: ShoppingBagWidget(bag: state.shoppingBag),
+                )
               ],
             ),
           );

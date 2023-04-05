@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homemade_app/app/dto/order_product_dto.dart';
 import 'package:homemade_app/app/pages/home/bloc/home_state.dart';
 import 'package:homemade_app/app/repositories/products/products_repository.dart';
 
@@ -25,5 +26,24 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     }
+  }
+
+  Future<void> addOrUpdateBag(OrderProductDto orderProduct) async {
+    final shoppingBag = [...state.shoppingBag];
+
+    final orderIndex = shoppingBag.indexWhere(
+      (orderP) => orderP.product == orderProduct.product,
+    );
+
+    if (orderIndex > -1) {
+      if (orderProduct.amount == 0) {
+        shoppingBag.removeAt(orderIndex);
+      }
+      shoppingBag[orderIndex] = orderProduct;
+    } else {
+      shoppingBag.add(orderProduct);
+    }
+
+    emit(state.copyWith(shoppingBag: shoppingBag));
   }
 }

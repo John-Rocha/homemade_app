@@ -51,7 +51,12 @@ class _HomePageState extends BaseState<HomePage, HomeCubit> {
                     itemCount: state.products.length,
                     itemBuilder: (context, index) {
                       final product = state.products[index];
-                      return DeliveryProductTile(product: product);
+                      final orders = state.shoppingBag
+                          .where((order) => order.product == product);
+                      return DeliveryProductTile(
+                        product: product,
+                        orderProduct: orders.isNotEmpty ? orders.first : null,
+                      );
                     },
                   ),
                 ),

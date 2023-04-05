@@ -7,15 +7,18 @@ import 'package:homemade_app/app/core/ui/helpers/size_extensions.dart';
 import 'package:homemade_app/app/core/ui/styles/text_styles.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_increment_decrement_button.dart';
+import 'package:homemade_app/app/dto/order_product_dto.dart';
 import 'package:homemade_app/app/models/product_model.dart';
 import 'package:homemade_app/app/pages/product_detail/bloc/product_detail_cubit.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
+  final OrderProductDto? order;
 
   const ProductDetailPage({
     super.key,
     required this.product,
+    this.order,
   });
 
   @override
@@ -24,6 +27,13 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState
     extends BaseState<ProductDetailPage, ProductDetailCubit> {
+  @override
+  void initState() {
+    super.initState();
+    final amount = widget.order?.amount ?? 1;
+    controller.initial(amount, widget.order != null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,30 +100,53 @@ class _ProductDetailPageState
                 child: BlocBuilder<ProductDetailCubit, int>(
                   builder: (context, amount) {
                     return ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Adicionar',
-                            style: context.textStyles.textExtraBold.copyWith(
-                              fontSize: 13,
+                      style: amount == 0
+                          ? ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red)
+                          : null,
+                      onPressed: () {
+                        if (amount == 0) {
+                          _showConfirmDelete(amount);
+                        } else {
+                          Navigator.of(context).pop(
+                            OrderProductDto(
+                              product: widget.product,
+                              amount: amount,
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: AutoSizeText(
-                              (widget.product.price * amount).currencyPTBR,
-                              maxFontSize: 13,
-                              minFontSize: 5,
-                              maxLines: 1,
-                              textAlign: TextAlign.center,
+                          );
+                        }
+                      },
+                      child: Visibility(
+                        visible: amount > 0,
+                        replacement: Text(
+                          'Excluir Produto',
+                          style: context.textStyles.textExtraBold,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Adicionar',
                               style: context.textStyles.textExtraBold.copyWith(
                                 fontSize: 13,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: AutoSizeText(
+                                (widget.product.price * amount).currencyPTBR,
+                                maxFontSize: 13,
+                                minFontSize: 5,
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                style:
+                                    context.textStyles.textExtraBold.copyWith(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -123,6 +156,46 @@ class _ProductDetailPageState
           )
         ],
       ),
+    );
+  }
+
+  void _showConfirmDelete(int amount) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Deseja excluir o produto?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Cancelar',
+                style: context.textStyles.textBold.copyWith(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop(
+                  OrderProductDto(
+                    product: widget.product,
+                    amount: amount,
+                  ),
+                );
+              },
+              child: Text(
+                'Confirmar',
+                style: context.textStyles.textBold,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

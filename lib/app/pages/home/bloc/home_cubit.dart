@@ -38,8 +38,9 @@ class HomeCubit extends Cubit<HomeState> {
     if (orderIndex > -1) {
       if (orderProduct.amount == 0) {
         shoppingBag.removeAt(orderIndex);
+      } else {
+        shoppingBag[orderIndex] = orderProduct;
       }
-      shoppingBag[orderIndex] = orderProduct;
     } else {
       shoppingBag.add(orderProduct);
     }

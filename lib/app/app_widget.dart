@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homemade_app/app/pages/order/order_page.dart';
 
 import 'core/provider/application_binding.dart';
 import 'core/ui/theme/theme_config.dart';
@@ -24,6 +25,7 @@ class AppWidget extends StatelessWidget {
           '/productDetail': (context) => ProductDetailRouter.page,
           '/auth/login': (context) => LoginRouter.page,
           '/auth/register': (context) => RegisterRoute.page,
+          '/order': (context) => const OrderPage(),
         },
       ),
     );

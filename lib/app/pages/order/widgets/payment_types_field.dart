@@ -58,8 +58,8 @@ class PaymentTypesField extends StatelessWidget {
               source: paymentTypes
                   .map((p) => {'value': p.id.toString(), 'title': p.name})
                   .toList(),
-              title: (index, item) => item['title'] ?? '',
               value: (index, item) => item['value'] ?? '',
+              title: (index, item) => item['title'] ?? '',
               group: (index, item) => 'Selecione uma forma de pagamento',
             ),
             choiceType: S2ChoiceType.radios,

@@ -79,6 +79,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginCubit> {
                       const SizedBox(height: 30),
                       TextFormField(
                         controller: _passwordEC,
+                        obscureText: true,
                         decoration: const InputDecoration(
                           label: Text('Senha'),
                         ),

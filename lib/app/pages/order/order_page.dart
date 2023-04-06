@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
 import 'package:homemade_app/app/core/ui/styles/text_styles.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_button.dart';
 import 'package:homemade_app/app/dto/order_product_dto.dart';
-import 'package:homemade_app/app/models/product_model.dart';
+import 'package:homemade_app/app/pages/order/bloc/order_cubit.dart';
 import 'package:homemade_app/app/pages/order/widgets/order_field.dart';
 import 'package:homemade_app/app/pages/order/widgets/order_product_tile.dart';
 import 'package:homemade_app/app/pages/order/widgets/payment_types_field.dart';
 import 'package:validatorless/validatorless.dart';
 
-class OrderPage extends StatelessWidget {
+import 'bloc/order_state.dart';
+
+class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
+  @override
+  void onReady() {
+    super.onReady();
+    final products =
+        ModalRoute.of(context)!.settings.arguments as List<OrderProductDto>;
+    controller.load(products);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,32 +55,31 @@ class OrderPage extends StatelessWidget {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 2,
-              (context, index) {
-                return Column(
-                  children: [
-                    OrderProductTile(
-                      index: index,
-                      orderProduct: OrderProductDto(
-                        product: ProductModel(
-                          id: 1,
-                          name: 'name',
-                          description: 'description',
-                          price: 8,
-                          image: '',
+          BlocSelector<OrderCubit, OrderState, List<OrderProductDto>>(
+            selector: (state) {
+              return state.orderProducts;
+            },
+            builder: (context, orderProducts) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: orderProducts.length,
+                  (context, index) {
+                    final orderProduct = orderProducts[index];
+                    return Column(
+                      children: [
+                        OrderProductTile(
+                          index: index,
+                          orderProduct: orderProduct,
                         ),
-                        amount: 10,
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.grey,
-                    ),
-                  ],
-                );
-              },
-            ),
+                        const Divider(
+                          color: Colors.grey,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              );
+            },
           ),
           SliverToBoxAdapter(
             child: Column(

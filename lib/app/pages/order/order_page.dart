@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homemade_app/app/core/extensions/formatter_extension.dart';
 import 'package:homemade_app/app/core/ui/base_state/base_state.dart';
 import 'package:homemade_app/app/core/ui/styles/text_styles.dart';
 import 'package:homemade_app/app/core/ui/widgets/delivery_app_bar.dart';
@@ -115,11 +116,17 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
                               fontSize: 16,
                             ),
                           ),
-                          Text(
-                            r'R$ 200,00',
-                            style: context.textStyles.textExtraBold.copyWith(
-                              fontSize: 20,
-                            ),
+                          BlocSelector<OrderCubit, OrderState, double>(
+                            selector: (state) => state.totalOrder,
+                            builder: (context, totalOrder) {
+                              return Text(
+                                totalOrder.currencyPTBR,
+                                style:
+                                    context.textStyles.textExtraBold.copyWith(
+                                  fontSize: 20,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

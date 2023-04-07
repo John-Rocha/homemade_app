@@ -7,7 +7,13 @@ import 'package:homemade_app/app/models/payment_type_model.dart';
 part 'order_state.g.dart';
 
 @match
-enum OrderStatus { initial, loaded, loading, error }
+enum OrderStatus {
+  initial,
+  loaded,
+  loading,
+  error,
+  updateOrder,
+}
 
 class OrderState extends Equatable {
   final OrderStatus status;
@@ -27,6 +33,11 @@ class OrderState extends Equatable {
         orderProducts = const [],
         paymentTypes = const [],
         errorMessage = null;
+
+  double get totalOrder => orderProducts.fold(
+        0.0,
+        (previousValue, element) => previousValue + element.totalPrice,
+      );
 
   @override
   List<Object?> get props => [

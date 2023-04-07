@@ -158,7 +158,11 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
                         ),
                         IconButton(
                           onPressed: () {
+<<<<<<< HEAD
                             _confirmRemoveAllProductDialog(controller);
+=======
+                            _confirmRemoveAllProduct(controller);
+>>>>>>> 29e80cf35cffd67d8c00c6cd35bae97521ee11f6
                           },
                           icon: Image.asset('assets/images/trashRegular.png'),
                         )

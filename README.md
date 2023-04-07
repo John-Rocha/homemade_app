@@ -1,11 +1,17 @@
-# App da Homemade ![logo_homemade](https://user-images.githubusercontent.com/52468127/230668779-ce7f8051-7449-4f05-8b59-752b763d13e4.png)
+# App da Homemade
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/52468127/230668779-ce7f8051-7449-4f05-8b59-752b763d13e4.png" width="200px" height="200px" />
+</div>
+
 Este projeto implementa uma forma simples de escolher lanches na lanchonete [Homemade Burguer](https://www.instagram.com/homemade_mcp/). A lanchonete realmente existe e fica em Macapá-AP.
 
 O projeto tem como base o conhecimento na linguagem Dart com o Framework Flutter, portanto, a aplicação não está publicada (ainda!).
 
-https://user-images.githubusercontent.com/52468127/230674025-37b88724-9bb1-41be-a12c-ff4cd1d61fa5.mp4
+<https://user-images.githubusercontent.com/52468127/230674025-37b88724-9bb1-41be-a12c-ff4cd1d61fa5.mp4>
 
 ## Conceitos aplicados no App
+
 - Clean Code
 - Clean Architecture
 - Gerencia de Estado
@@ -22,6 +28,7 @@ https://user-images.githubusercontent.com/52468127/230674025-37b88724-9bb1-41be-
 - Configuração do ícone da aplicação
 
 ## Packages utilizados
+
 - provider
 - flutter_bloc
 - dio
@@ -40,6 +47,7 @@ https://user-images.githubusercontent.com/52468127/230674025-37b88724-9bb1-41be-
 - flutter_launcher_icons
 
 ## Comaçando com o Flutter
+
 Este projeto é um ponto de partida para um aplicativo Flutter.
 Alguns recursos para você começar se este for seu primeiro projeto Flutter:
 
@@ -51,9 +59,10 @@ Para obter ajuda para começar com o desenvolvimento do Flutter, veja o
 amostras, orientação sobre desenvolvimento móvel e uma referência completa da API.
 
 ## Configuração do Backend do projeto
+
 Na raiz do projeto, acesse o diretório `backend` e digitem o comando `json_rest_server run`.
 No navegador ou em alguma ferrementa de requisição de dados para API, acesse os endpoints pelo endereço: `http://localhost:8080`
 
 ### Rotas
-O arquivo de rotas estará na raiz do projeto com o nome de `endpoints.zip` e você poderá importá-lo para qualquer ferrementa de requisição de dados para API
 
+O arquivo de rotas estará na raiz do projeto com o nome de `endpoints.zip` e você poderá importá-lo para qualquer ferrementa de requisição de dados para API

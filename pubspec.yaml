@@ -49,6 +49,14 @@ dependencies:
   json_annotation: ^4.8.0
   validatorless: ^1.2.3
   flutter_awesome_select: ^6.5.0
+  flutter_launcher_icons: ^0.13.0
+
+flutter_icons:
+  image_path: "assets/images/logo_homemade.png"
+  ios: true
+  remove_alpha_ios: true
+  android: "launcher_icon"
+  adaptive_icon_background: "#FFFFFF"
 
 dev_dependencies:
   flutter_test:

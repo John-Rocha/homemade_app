@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homemade_app/app/core/extensions/formatter_extension.dart';
 import 'package:homemade_app/app/core/ui/helpers/size_extensions.dart';
 import 'package:homemade_app/app/core/ui/styles/text_styles.dart';
 import 'package:homemade_app/app/dto/order_product_dto.dart';
+import 'package:homemade_app/app/pages/home/bloc/home_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShoppingBagWidget extends StatelessWidget {
@@ -11,6 +13,7 @@ class ShoppingBagWidget extends StatelessWidget {
 
   Future<void> _goOrder(BuildContext context) async {
     final navigator = Navigator.of(context);
+    final controller = context.read<HomeCubit>();
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('accessToken')) {
       // Envio pro Login
@@ -22,10 +25,11 @@ class ShoppingBagWidget extends StatelessWidget {
     }
 
     // Envio para a OrderPage
-    await navigator.pushNamed(
+    final updadeBag = await navigator.pushNamed(
       '/order',
       arguments: bag,
     );
+    controller.updateBag(updadeBag as List<OrderProductDto>);
   }
 
   @override

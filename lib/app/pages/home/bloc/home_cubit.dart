@@ -47,4 +47,8 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(shoppingBag: shoppingBag));
   }
+
+  void updateBag(List<OrderProductDto> updadeBag) {
+    emit(state.copyWith(shoppingBag: updadeBag));
+  }
 }

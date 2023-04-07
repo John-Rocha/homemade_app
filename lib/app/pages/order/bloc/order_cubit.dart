@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homemade_app/app/dto/order_dto.dart';
 import 'package:homemade_app/app/dto/order_product_dto.dart';
 import 'package:homemade_app/app/pages/order/bloc/order_state.dart';
 import 'package:homemade_app/app/repositories/order/order_repository.dart';
@@ -80,5 +81,22 @@ class OrderCubit extends Cubit<OrderState> {
 
   void emptyBag() {
     emit(state.copyWith(status: OrderStatus.emptyBag));
+  }
+
+  Future<void> saveOrder({
+    required String address,
+    required String document,
+    required int paymentMethodId,
+  }) async {
+    emit(state.copyWith(status: OrderStatus.loading));
+    await _orderRepository.saveOrder(
+      OrderDto(
+        product: state.orderProducts,
+        address: address,
+        document: document,
+        paymentMethodId: paymentMethodId,
+      ),
+    );
+    emit(state.copyWith(status: OrderStatus.success));
   }
 }

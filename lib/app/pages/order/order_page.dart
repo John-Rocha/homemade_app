@@ -131,6 +131,13 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
             );
             Navigator.of(context).pop(<OrderProductDto>[]);
           },
+          success: () {
+            hideLoader();
+            Navigator.of(context).popAndPushNamed(
+              '/order/completed',
+              result: <OrderProductDto>[],
+            );
+          },
         );
       },
       child: WillPopScope(
@@ -283,7 +290,13 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
                             final paymentTypeSelected = paymentTypeId != null;
                             paymentTypeValid.value = paymentTypeSelected;
 
-                            if (valid) {}
+                            if (valid && paymentTypeSelected) {
+                              controller.saveOrder(
+                                address: _addressEC.text,
+                                document: _documentEC.text,
+                                paymentMethodId: paymentTypeId!,
+                              );
+                            }
                           },
                         ),
                       )

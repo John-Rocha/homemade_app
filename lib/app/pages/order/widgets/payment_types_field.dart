@@ -6,9 +6,16 @@ import 'package:homemade_app/app/models/payment_type_model.dart';
 
 class PaymentTypesField extends StatelessWidget {
   final List<PaymentTypeModel> paymentTypes;
+  final ValueChanged<int> valueChanged;
+  final bool valid;
+  final String valueSelected;
+
   const PaymentTypesField({
     super.key,
     required this.paymentTypes,
+    required this.valueChanged,
+    required this.valid,
+    required this.valueSelected,
   });
 
   @override
@@ -27,9 +34,11 @@ class PaymentTypesField extends StatelessWidget {
           ),
           SmartSelect.single(
             title: '',
-            selectedValue: '',
+            selectedValue: valueSelected,
             modalType: S2ModalType.bottomSheet,
-            onChange: (value) {},
+            onChange: (selected) {
+              valueChanged(int.parse(selected.value));
+            },
             tileBuilder: (context, state) {
               return InkWell(
                 onTap: state.showModal,
@@ -50,6 +59,25 @@ class PaymentTypesField extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Visibility(
+                      visible: !valid,
+                      child: const Divider(
+                        color: Colors.red,
+                      ),
+                    ),
+                    Visibility(
+                        visible: !valid,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                          ),
+                          child: Text(
+                            'Selecione uma forma de pagamento',
+                            style: context.textStyles.textRegular.copyWith(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ))
                   ],
                 ),
               );

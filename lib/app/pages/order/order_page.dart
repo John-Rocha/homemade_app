@@ -37,6 +37,77 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
     controller.load(products);
   }
 
+  void _showConfirmProductDialog(OrderConfirmDeleteProductState state) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Deseja excluir o produto ${state.orderProduct.product.name}?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              controller.cancelDeleteProcess();
+            },
+            child: Text(
+              'Cancelar',
+              style: context.textStyles.textBold.copyWith(
+                color: Colors.red,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              controller.decrementProduct(state.index);
+            },
+            child: Text(
+              'Confirmar',
+              style: context.textStyles.textBold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmRemoveAllProductDialog(OrderCubit controller) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Deseja excluir todos os produtos do carrinho?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Cancelar',
+              style: context.textStyles.textBold.copyWith(
+                color: Colors.red,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              controller.emptyBag();
+            },
+            child: Text(
+              'Confirmar',
+              style: context.textStyles.textBold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<OrderCubit, OrderState>(
@@ -47,6 +118,18 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
           error: () {
             hideLoader();
             showError(state.errorMessage ?? 'Erro não informado');
+          },
+          confirmRemoveProduct: () {
+            hideLoader();
+            if (state is OrderConfirmDeleteProductState) {
+              _showConfirmProductDialog(state);
+            }
+          },
+          emptyBag: () {
+            showInfo(
+              'Sua sacola está vazia, por favor selecione um produto para realizar seu pedido',
+            );
+            Navigator.of(context).pop(<OrderProductDto>[]);
           },
         );
       },
@@ -74,7 +157,9 @@ class _OrderPageState extends BaseState<OrderPage, OrderCubit> {
                           style: context.textStyles.textTitle,
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _confirmRemoveAllProductDialog(controller);
+                          },
                           icon: Image.asset('assets/images/trashRegular.png'),
                         )
                       ],

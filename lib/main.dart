@@ -5,5 +5,5 @@ import 'app/app_widget.dart';
 
 Future<void> main() async {
   await Env.i.load();
-  runApp(const AppWidget());
+  runApp(AppWidget());
 }

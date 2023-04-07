@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:homemade_app/app/core/global/global_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptors extends Interceptor {
@@ -20,10 +21,7 @@ class AuthInterceptors extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     if (err.response?.statusCode == 401) {
-      // Redirecionar o usuário para a tela de home
-      final prefs = await SharedPreferences.getInstance();
-      prefs.clear();
-      handler.next(err);
+      GlobalContext.i.loginExpire();
     } else {
       handler.next(err);
     }
